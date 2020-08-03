@@ -9,7 +9,6 @@ import NewCard from './components/NewCard.js'
 import CreateDeck from './components/CreateDeck.js';
 import Quiz from './components/Quiz.js'
 import { NavigationContainer } from '@react-navigation/native';
-// import { View, Text, Button } from 'react-native';
 
 const Stack = createStackNavigator();
 

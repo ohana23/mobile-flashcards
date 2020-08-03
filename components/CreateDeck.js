@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native'
 import { TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 
 function CreateDeck({ route, navigation }) {

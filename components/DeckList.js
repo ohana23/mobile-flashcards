@@ -6,23 +6,23 @@ import { decks } from '../utils/_DATA'
 
 class DeckList extends React.Component {
     state = {
-        DATA: [
-            {
-                id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-                title: 'Biology 2',
-                subtitle: '17 cards'
-            },
-            {
-                id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-                title: 'Italian',
-                subtitle: '4 cards'
-            },
-            {
-                id: '58694a0f-3da1-471f-bd96-145571e29d72',
-                title: 'Discrete Structures',
-                subtitle: '2 cards'
-            },
-        ]
+        DATA: this.formatData(decks),
+    }
+
+    formatData(decks) {
+        let entries = Object.entries(decks)
+        var formattedData = []
+
+        for (let i = 0; i < entries.length; i++) {
+            let deckEntry = {
+                title: entries[i][0],
+                subtitle: entries[i][1].questions.length + " cards"
+            }
+
+            formattedData.push(deckEntry)
+        }
+
+        return formattedData
     }
 
     render() {
@@ -49,7 +49,6 @@ class DeckList extends React.Component {
         const AddDeckButton = () => {
             return (
                 <TouchableOpacity
-                    // style={styles.button}
                     onPress={() => this.props.navigation.navigate('Create Deck')}
                 >
                     <Text style={styles.button}>CREATE DECK</Text>
@@ -62,7 +61,7 @@ class DeckList extends React.Component {
                 <FlatList 
                     data={DATA}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.title}
                 />
                 <AddDeckButton />
             </View>

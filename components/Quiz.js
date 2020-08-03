@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 'bold',
         textTransform: 'uppercase',
         letterSpacing: 0.5

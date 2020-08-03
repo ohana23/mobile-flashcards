@@ -9,11 +9,10 @@ function DeckDetails({ route, navigation }) {
                 style={styles.button}
                 onPress={() => navigation.navigate('New Card')}
             >
-                <Text style={styles.button}>{title}</Text>
+                <Text style={styles.buttonText}>{title}</Text>
             </TouchableOpacity>
         )
     }
-
 
     const StartQuizButton = ({ title }) => {
         return (
@@ -26,7 +25,7 @@ function DeckDetails({ route, navigation }) {
                     ]
                 })}
             >
-                <Text style={styles.button}>{title}</Text>
+                <Text style={styles.buttonText}>{title}</Text>
             </TouchableOpacity>
         )
     }
@@ -65,12 +64,14 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     button: {
-        fontSize: 20,
-        fontWeight: 'bold',
         height: 50,
         padding: 8,
-        textAlign: 'center',
         marginBottom: 20,
+    },
+    buttonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
         letterSpacing: 1,
     },
     buttonGroup: {
