@@ -6,11 +6,10 @@ import QuizResults from './QuizResults'
 class Quiz extends React.Component {
     constructor(props) {
         super(props)
-        this.deckList = this.props.route.params.deckList
+        this.deckList = this.props.route.params.deckList.questions
         this.state = {
             questionNumber: 1, 
             showAnswer: false,
-            totalQuestions: this.props.route.params.deckList.length,
             correctAnswers: 0
         }
         this.handleRestart = this.handleRestart.bind(this);
@@ -28,7 +27,6 @@ class Quiz extends React.Component {
         this.setState({
             questionNumber: 1,
             showAnswer: false,
-            totalQuestions: this.props.route.params.deckList.length,
             correctAnswers: 0
         })
     }
@@ -74,11 +72,11 @@ class Quiz extends React.Component {
     }
 
     render() {
-        const { questionNumber, totalQuestions, showAnswer, correctAnswers } = this.state
+        const { questionNumber, showAnswer, correctAnswers } = this.state
 
         return (
             <View style={styles.viewContainer}>
-                {questionNumber <= totalQuestions && 
+                {questionNumber <= this.deckList.length && 
                     <View>
                         <Text style={styles.progress}>{questionNumber} / {this.deckList.length}</Text>
                         <Text style={styles.question}>
@@ -87,11 +85,11 @@ class Quiz extends React.Component {
                     </View>
                 }
 
-                {questionNumber <= totalQuestions
+                {questionNumber <= this.deckList.length
                     ? showAnswer ? this.showAnswer() : this.showAnswerButton()
                     : <QuizResults 
                         correctAnswers={correctAnswers} 
-                        totalQuestions={totalQuestions} 
+                        totalQuestions={this.deckList.length} 
                         handleRestart={this.handleRestart}/>
                 }
             </View>

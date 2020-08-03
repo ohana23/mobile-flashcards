@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { getDeck } from '../utils/api'
 
 function DeckDetails({ route, navigation }) {
+
+    const [deckList, setDeckList] = useState([]);
+
+    useEffect(() => {
+        getDeck(route.params.title, setDeckList).questions
+    }, [])
+
     const AddCardButton = ({ title }) => {
         return (
             <TouchableOpacity
@@ -18,12 +26,7 @@ function DeckDetails({ route, navigation }) {
         return (
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate('Start Quiz', {
-                    deckList: [
-                        {question: "Please tell what the powerhouse of the cell is is it the mitochondria or is it something even crazier than that", answer: "yea i kinda feel the same way like i'm asking the asame thing is it the mitochondria or what lol"}, 
-                        {question: "What is your age?", answer: "4"},
-                    ]
-                })}
+                onPress={() => navigation.navigate('Start Quiz', { deckList })}
             >
                 <Text style={styles.buttonText}>{title}</Text>
             </TouchableOpacity>

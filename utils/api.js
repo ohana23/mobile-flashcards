@@ -1,5 +1,4 @@
 import { decks } from './_DATA'
-// import { AsyncStorage } from 'react-native' // setItem, getItem, mergeItem
 import AsyncStorage from '@react-native-community/async-storage'
 
 export const DECKS_STORAGE_KEY = 'MobileFlashcards:deck'
@@ -24,10 +23,10 @@ export async function getDecks() {
     }
 }
 
-export async function getDeck(id) {
+export async function getDeck(id, setDeckList) {
     try {
         const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-
+        setDeckList(JSON.parse(item)[id])
         return JSON.parse(item)[id]
     } catch (err) {
         console.log(err)

@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
-import AsyncStorage from '@react-native-community/async-storage'
 import { decks } from '../utils/_DATA'
 
 class DeckList extends React.Component {
@@ -19,6 +18,8 @@ class DeckList extends React.Component {
                 subtitle: entries[i][1].questions.length + " cards"
             }
 
+            //todo: getdecks from api??
+            // pass questions to deck details then to quiz
             formattedData.push(deckEntry)
         }
 
