@@ -1,24 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native'
 import { TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native-gesture-handler'
+import { saveDeckTitle } from '../utils/api'
 
 function CreateDeck({ route, navigation }) {
+
+    const [newDeckTitle, setNewDeckTitle] = useState('')
+
+    useEffect(() => {
+    }, [newDeckTitle])
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
             style={styles.container}
             keyboardShouldPersistTaps={'never'}
-        >   
-            <Text>{JSON.stringify(route.params)}</Text>
+        >
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Title"
-                    placeholderTextColor="rgb(150, 150, 180)"
-                    defaultValue={""}
+                    placeholder='Title'
+                    placeholderTextColor='rgb(150, 150, 180)'
+                    defaultValue={''}
+                    onChangeText={text => setNewDeckTitle(text)}
                 />
                 <TouchableOpacity
-                    // onPress={() => navigation.navigate('Decks')}
+                    onPress={() => {
+                        saveDeckTitle({newDeckTitle})
+                        navigation.navigate('Decks')
+                    }}
                 >
                     <Text style={styles.button}>CREATE</Text>
                 </TouchableOpacity>

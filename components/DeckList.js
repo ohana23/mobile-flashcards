@@ -18,8 +18,6 @@ class DeckList extends React.Component {
                 subtitle: entries[i][1].questions.length + " cards"
             }
 
-            //todo: getdecks from api??
-            // pass questions to deck details then to quiz
             formattedData.push(deckEntry)
         }
 

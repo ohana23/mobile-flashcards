@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { getDeck } from '../utils/api'
 
 function DeckDetails({ route, navigation }) {
 
-    const [deckList, setDeckList] = useState([]);
+    const [deckList, setDeckList] = useState();
 
     useEffect(() => {
         getDeck(route.params.title, setDeckList).questions
     }, [])
-
-    const AddCardButton = ({ title }) => {
-        return (
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('New Card')}
-            >
-                <Text style={styles.buttonText}>{title}</Text>
-            </TouchableOpacity>
-        )
-    }
 
     const StartQuizButton = ({ title }) => {
         return (
@@ -33,12 +22,21 @@ function DeckDetails({ route, navigation }) {
         )
     }
 
+    const AddCardButton = ({ title }) => {
+        return (
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('New Card')}
+            >
+                <Text style={styles.buttonText}>{title}</Text>
+            </TouchableOpacity>
+        )
+    }
+
     return (
         <View style={styles.container}>
-            <View>
-                <Text style={styles.title}>{route.params.title}</Text>
-                <Text style={styles.subtitle}>{route.params.subtitle}</Text>
-            </View>
+            <Text style={styles.title}>{route.params.title}</Text>
+            <Text style={styles.subtitle}>{route.params.subtitle}</Text>
 
             <View style={styles.buttonGroup}>
                 <StartQuizButton title="START QUIZ"/>

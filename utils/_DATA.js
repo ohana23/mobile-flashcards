@@ -20,5 +20,14 @@ export const decks = {
                 answer: 'The combination of a function and the lexical environment within which that function was declared.'
             }
         ]
+    },
+    Instagram: {
+        title: 'Instagram',
+        questions: [
+            {
+                question: 'When is the best time to post to get the most likes?',
+                answer: 'Midday'
+            }
+        ]
     }
 }

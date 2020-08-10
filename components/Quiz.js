@@ -73,23 +73,24 @@ class Quiz extends React.Component {
 
     render() {
         const { questionNumber, showAnswer, correctAnswers } = this.state
+        const totalQuestions = this.deckList.length
 
         return (
             <View style={styles.viewContainer}>
-                {questionNumber <= this.deckList.length && 
+                {questionNumber <= totalQuestions && 
                     <View>
-                        <Text style={styles.progress}>{questionNumber} / {this.deckList.length}</Text>
+                        <Text style={styles.progress}>{questionNumber} / {totalQuestions}</Text>
                         <Text style={styles.question}>
                             {this.deckList[questionNumber - 1].question}
                         </Text>
                     </View>
                 }
 
-                {questionNumber <= this.deckList.length
+                {questionNumber <= totalQuestions
                     ? showAnswer ? this.showAnswer() : this.showAnswerButton()
                     : <QuizResults 
                         correctAnswers={correctAnswers} 
-                        totalQuestions={this.deckList.length} 
+                        totalQuestions={totalQuestions} 
                         handleRestart={this.handleRestart}/>
                 }
             </View>
