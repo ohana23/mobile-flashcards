@@ -1,12 +1,17 @@
 import { decks } from './_DATA'
 import AsyncStorage from '@react-native-community/async-storage'
+import * as Notifications from 'expo-notifications'
+import * as Permissions from 'expo-permissions'
 
 export const DECKS_STORAGE_KEY = 'MobileFlashcards:deck'
+export const NOTIFICATION_KEY = 'MobileFlashcards:notifications'
 
-export function getData() {
-    return decks
-}
+// Get initial decks data.
+// function getData() {
+//     return decks
+// }
 
+// Get all decks stored in AsynsStorage.
 export async function getDecks() {
     try {
         const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
@@ -23,6 +28,7 @@ export async function getDecks() {
     }
 }
 
+// Store initial decks data to AsynsStorage.
 export async function storeData() {
     try {
         await AsyncStorage.setItem(
@@ -36,10 +42,10 @@ export async function storeData() {
 }
 
 // Get a specific deck.
+// TODO: Remove second parameter and if stmnt.
 export async function getDeck(id, setDeckList) {
     try {
         const allDecks = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-
         if (setDeckList) {
             setDeckList(JSON.parse(allDecks)[id])
         }
@@ -71,7 +77,6 @@ export async function saveDeckTitle(deckTitle) {
 export async function addCardToDeck(title, card) {
     try {
         const deck = await getDeck(title)
-
         await AsyncStorage.mergeItem(
             DECKS_STORAGE_KEY,
             JSON.stringify({
@@ -85,7 +90,7 @@ export async function addCardToDeck(title, card) {
     }
 }
 
-// Clear out AsyncStorage data.
+// Delete all AsyncStorage data.
 export async function clearAppData() {
     try {
         const keys = await AsyncStorage.getAllKeys();
@@ -93,4 +98,47 @@ export async function clearAppData() {
     } catch (error) {
         console.error(error);
     }
-  }
+}
+
+export function clearLocalNotification() {
+    return AsyncStorage.removeItem(NOTIFICATION_KEY)
+        .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+function createNotification() {
+    return {
+        title: 'Study',
+        body: "Don't forget to study today!",
+        ios: {
+            sound: true
+        }
+    }
+}
+
+export function setLocalNotification() {
+    AsyncStorage.getItem(NOTIFICATION_KEY)
+        .then(JSON.parse)
+        .then((data) => {
+            Permissions.askAsync(Permissions.NOTIFICATIONS)
+                .then(({ status }) => {
+                    if (status === 'granted') {
+                        Notifications.cancelAllScheduledNotificationsAsync()
+
+                        let tomorrow = new Date()
+                        tomorrow.setDate(tomorrow.getDate() + 1)
+                        tomorrow.setHours(20)
+                        tomorrow.setMinutes(0)
+
+                        Notifications.scheduleNotificationAsync(
+                            createNotification(),
+                            {
+                                time: tomorrow,
+                                repeat: 'day',
+                            }
+                        )
+
+                        AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+                    }
+                })
+        })
+}

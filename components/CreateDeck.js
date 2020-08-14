@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
-import { TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native-gesture-handler'
+import React from 'react'
+import { StyleSheet, Text, TextInput, Keyboard, KeyboardAvoidingView } from 'react-native'
+import { TouchableWithoutFeedback, TouchableOpacity } from 'react-native-gesture-handler'
 import { saveDeckTitle } from '../utils/api'
 
 class CreateDeck extends React.Component {
@@ -15,10 +15,12 @@ class CreateDeck extends React.Component {
         this.setState({ deckTitle: deckTitleValue })
     }
 
-    // TODO: Don't navigate to Decks List. Navigate to this individual deck instead.
     handleSubmit = (deckTitle, navigation) => {
         saveDeckTitle(deckTitle)
-        navigation.navigate('Decks')
+        navigation.navigate('Deck Details', {
+            title: deckTitle,
+            numberOfCards: 0
+        })
     }
 
     render() {
@@ -27,7 +29,7 @@ class CreateDeck extends React.Component {
 
         return (
             <KeyboardAvoidingView
-                behavior={Platform.OS == "ios" ? "padding" : "height"}
+                behavior={"padding"}
                 style={styles.container}
                 keyboardShouldPersistTaps={'never'}
             >
@@ -40,9 +42,10 @@ class CreateDeck extends React.Component {
                         onChangeText={deckTitleValue => this.handleDeckTitleChange(deckTitleValue)}
                     />
                     <TouchableOpacity
+                        disabled={deckTitle === '' ? true : false}
                         onPress={() => this.handleSubmit(deckTitle, navigation)}
                     >
-                        <Text style={styles.button}>CREATE</Text>
+                        <Text style={deckTitle === '' ? styles.buttonDisabled : styles.button}>CREATE</Text>
                     </TouchableOpacity>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>

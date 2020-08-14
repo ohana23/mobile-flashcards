@@ -20,7 +20,9 @@ class DeckList extends React.Component {
             })
         }
         
-        this.props.navigation.addListener('focus', () => { fetchDecks() })
+        this.props.navigation.addListener('focus', () => { 
+            fetchDecks() 
+        })
     }
 
     formatData(decks) {
@@ -91,7 +93,7 @@ class DeckList extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+        flex: 1,
     },
     item: {
         backgroundColor: 'rgb(10, 125, 240)',

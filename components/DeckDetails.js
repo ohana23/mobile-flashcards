@@ -15,6 +15,7 @@ class DeckDetails extends React.Component {
     componentDidMount() {
         const fetchDeck = async () => {
             const response = await getDeck(this.props.route.params.title)
+
             this.setState({
                 deckList: response,
                 numberOfCards: response.questions.length

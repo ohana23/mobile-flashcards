@@ -7,7 +7,6 @@ class Quiz extends React.Component {
     constructor(props) {
         super(props)
         this.deckList = this.props.route.params.deckList.questions
-        console.log(this.deckList) // todo: delete
         this.state = {
             questionNumber: 1, 
             showAnswer: false,
@@ -142,9 +141,9 @@ const styles = StyleSheet.create({
     },
     progress: {
         fontSize: 20,
-        color: 'gray',
+        color: 'rgb(10, 125, 240)',
         fontWeight: 'bold',
-        backgroundColor: 'lightgray',
+        backgroundColor: '#cfe2ff',
         width: 80,
         textAlign: 'center'
     },

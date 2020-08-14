@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, Keyboard, KeyboardAvoidingView, Platform, View } from 'react-native'
+import { StyleSheet, Text, TextInput, Keyboard, KeyboardAvoidingView, View } from 'react-native'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { addCardToDeck } from '../utils/api'
 
@@ -21,7 +21,7 @@ class NewCard extends React.Component {
     }
 
     handleSubmit = (questionValue, answerValue) => {
-        const { deckTitle, onGoBack } = this.props.route.params
+        const { deckTitle } = this.props.route.params
 
         Keyboard.dismiss()
 
@@ -31,14 +31,11 @@ class NewCard extends React.Component {
             answer: answerValue
         }
 
-        // Use AsyncStorage to add a card to the respective deck.
+        // Use AsyncStorage to add that card to its respective deck.
         const postThisCardToThisDeck = async () => {
             await addCardToDeck(deckTitle, card)
         }
         postThisCardToThisDeck()
-
-        // Refresh the previous page before navigating back.
-        // onGoBack(this.props.route.params.numberOfCards + 1)
 
         // Back navigate to this deck's details.
         this.props.navigation.goBack()
@@ -50,7 +47,7 @@ class NewCard extends React.Component {
         
         return (
             <KeyboardAvoidingView
-                behavior={Platform.OS == "ios" ? "padding" : "height"}
+                behavior={"padding"}
                 style={styles.container}
                 keyboardShouldPersistTaps={'never'}
             >
@@ -86,8 +83,8 @@ class NewCard extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
+        flex: 1,
+        justifyContent: 'center',
     },
     input: {
         borderWidth: 2,

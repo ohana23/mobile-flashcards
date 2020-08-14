@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import DeckList from './components/DeckList.js'
@@ -7,7 +6,8 @@ import NewCard from './components/NewCard.js'
 import CreateDeck from './components/CreateDeck.js'
 import Quiz from './components/Quiz.js'
 import { NavigationContainer } from '@react-navigation/native'
-import { storeData, clearAppData } from './utils/api'
+import { storeData, clearAppData, setLocalNotification } from './utils/api'
+import { StatusBar } from 'react-native'
 
 const Stack = createStackNavigator();
 
@@ -25,6 +25,8 @@ function NewCardScreen({ route, navigation }) {
 
 function App() {
   storeData()
+  setLocalNotification()
+  StatusBar.setBarStyle('dark-content', true);
 
   return (
     <NavigationContainer>
