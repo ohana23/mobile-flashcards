@@ -27,6 +27,19 @@ export const decks = {
             {
                 question: 'When is the best time to post to get the most likes?',
                 answer: 'Midday'
+            },
+            {
+                question: 'Who has the most followers?',
+                answer: 'Justin Bieber'
+            }
+        ]
+    },
+    Test: {
+        title: 'Test',
+        questions: [
+            {
+                question: 'test',
+                answer: 'test'
             }
         ]
     }

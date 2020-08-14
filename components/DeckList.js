@@ -1,11 +1,25 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
-import { decks } from '../utils/_DATA'
+import { getDecks } from '../utils/api'
 
 class DeckList extends React.Component {
-    state = {
-        DATA: this.formatData(decks),
+    constructor(props) {
+        super(props)
+        this.state = {
+            DATA: [],
+        }
+    }
+
+    componentDidMount() {
+        const fetchDecks = async () => {
+            const response = await getDecks()
+
+            this.setState({
+                DATA: response
+            })
+        }
+        fetchDecks()
     }
 
     formatData(decks) {
@@ -15,40 +29,58 @@ class DeckList extends React.Component {
         for (let i = 0; i < entries.length; i++) {
             let deckEntry = {
                 title: entries[i][0],
-                subtitle: entries[i][1].questions.length + " cards"
+                numberOfCards: entries[i][1].questions.length,
             }
-
+            
             formattedData.push(deckEntry)
         }
 
         return formattedData
     }
 
+    refreshPage = () => {
+        const fetchDecks = async () => {
+            const response = await getDecks()
+            var decks = this.formatData(await response)
+
+            this.setState({
+                DATA: decks
+            })
+        }
+        fetchDecks()
+    }
+
     render() {
         const { DATA } = this.state
+        const { navigation } = this.props
 
-        const DeckItem = ({ title, subtitle }) => (
+        const DeckItem = ({ title, numberOfCards, refreshPage }) => (
             <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Deck Details', {
+                onPress={() => navigation.navigate('Deck Details', {
                     title: title,
-                    subtitle: subtitle
+                    numberOfCards: numberOfCards,
+                    onGoBack: refreshPage
                 })}
             >
                 <View style={styles.item}>
                         <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.subtitle}>{subtitle}</Text>
+                        <Text style={styles.subtitle}>{numberOfCards + " cards"}</Text>
                 </View>
             </TouchableOpacity>
         )
 
         const renderItem = ({ item }) => (
-            <DeckItem title={item.title} subtitle={item.subtitle}/>
+            <DeckItem 
+                title={item.title} 
+                numberOfCards={item.numberOfCards}
+                refreshPage={this.refreshPage}
+            />
         )
 
         const AddDeckButton = () => {
             return (
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Create Deck')}
+                    onPress={() => navigation.navigate('Create Deck')}
                 >
                     <Text style={styles.button}>CREATE DECK</Text>
                 </TouchableOpacity>
@@ -58,7 +90,7 @@ class DeckList extends React.Component {
         return (
             <View style={styles.container}>
                 <FlatList 
-                    data={DATA}
+                    data={this.formatData(DATA)}
                     renderItem={renderItem}
                     keyExtractor={item => item.title}
                 />
@@ -92,9 +124,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: 'rgb(10, 125, 240)',
-        height: 80,
+        height: 65,
         textAlign: 'center',
-        padding: 15,
+        padding: 22,
         letterSpacing: 1
     }
   })

@@ -1,6 +1,5 @@
 import { decks } from './_DATA'
 import AsyncStorage from '@react-native-community/async-storage'
-// import { AsyncStorage } from 'react-native'
 
 export const DECKS_STORAGE_KEY = 'MobileFlashcards:deck'
 
@@ -13,6 +12,7 @@ export async function getDecks() {
         const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
 
         if (item === null) {
+            console.log("item is null")
             AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
         }
 
@@ -24,28 +24,37 @@ export async function getDecks() {
     }
 }
 
+export async function storeData() {
+    try {
+        await AsyncStorage.setItem(
+            'MobileFlashcards:deck',
+            JSON.stringify(decks)
+        )
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// Get a specific deck.
 export async function getDeck(id, setDeckList) {
     try {
-        const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-        setDeckList(JSON.parse(item)[id])
-        return JSON.parse(item)[id]
+        const allDecks = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
+
+        if (setDeckList) {
+            setDeckList(JSON.parse(allDecks)[id])
+        }
+
+        return JSON.parse(allDecks)[id]
     } catch (err) {
         console.log(err)
     }
 }
 
-// export async function getDeck(id) {
-//     try {
-//         const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-//         console.log(JSON.parse(item)[id])
-//         return JSON.parse(item)[id]
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
-
+// Save a new deck to the decklist.
 export async function saveDeckTitle(title) {
     console.log("SAVE DECK TITLE")
+    console.log(title)
     console.log(JSON.stringify({
         [title]: {
             title,
@@ -67,9 +76,12 @@ export async function saveDeckTitle(title) {
     }
 }
 
+// Add a new card to the specified deck title.
 export async function addCardToDeck(title, card) {
     try {
         const deck = await getDeck(title)
+        console.log(title)
+        console.log(deck)
 
         await AsyncStorage.mergeItem(
             DECKS_STORAGE_KEY,
@@ -79,7 +91,20 @@ export async function addCardToDeck(title, card) {
                 }
             })
         )
+
+        const deck2 = await getDeck(title)
+        console.log(deck2)
     } catch (err) {
         console.log(err)
     }
 }
+
+// Clear out AsyncStorage data.
+export async function clearAppData() {
+    try {
+        const keys = await AsyncStorage.getAllKeys();
+        await AsyncStorage.multiRemove(keys);
+    } catch (error) {
+        console.error(error);
+    }
+  }

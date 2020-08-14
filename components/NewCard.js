@@ -1,11 +1,15 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, Keyboard, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { addCardToDeck } from '../utils/api'
 
 class NewCard extends React.Component {
-    state = {
-        questionValue: '',
-        answerValue: '',
+    constructor(props) {
+        super(props)
+        this.state = {
+            questionValue: '',
+            answerValue: ''
+        }
     }
 
     handleQuestionChange = (question) => {
@@ -16,9 +20,28 @@ class NewCard extends React.Component {
         this.setState({ answerValue: answer })
     }
 
-    handleSubmit = () => {
+    handleSubmit = (questionValue, answerValue) => {
+        const { deckTitle, onGoBack } = this.props.route.params
+
         Keyboard.dismiss()
-        navigation.navigate('DeckListScreen')
+
+        // Create a card object.
+        const card = {
+            question: questionValue,
+            answer: answerValue
+        }
+
+        // Use AsyncStorage to add a card to the respective deck.
+        const postThisCardToThisDeck = async () => {
+            await addCardToDeck(deckTitle, card)
+        }
+        postThisCardToThisDeck()
+
+        // Refresh the previous page before navigating back.
+        onGoBack(this.props.route.params.numberOfCards + 1)
+
+        // Back navigate to this deck's details.
+        this.props.navigation.goBack()
     }
 
     render() {
@@ -30,7 +53,7 @@ class NewCard extends React.Component {
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
                 style={styles.container}
                 keyboardShouldPersistTaps={'never'}
-            >   
+            >
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <TextInput
                         style={styles.input}
@@ -50,8 +73,8 @@ class NewCard extends React.Component {
                     />
                     <TouchableOpacity
                         disabled={inputsIncomplete}
-                        onPress={this.handleSubmit}
-                        >
+                        onPress={() => this.handleSubmit(questionValue, answerValue)}
+                    >
                         <Text style={inputsIncomplete ? styles.buttonDisabled : styles.button}>SUBMIT</Text>
                         <View style={{height: 60}}></View>
                     </TouchableOpacity>
@@ -77,7 +100,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         height: 100,
-        backgroundColor: 'rgb(210, 210, 210)'
+        backgroundColor: 'rgb(230, 230, 230)'
     },
     button: {
         fontSize: 20,

@@ -7,8 +7,7 @@ function CreateDeck({ route, navigation }) {
 
     const [newDeckTitle, setNewDeckTitle] = useState('')
 
-    useEffect(() => {
-    }, [newDeckTitle])
+    useEffect(() => { }, [newDeckTitle])
 
     return (
         <KeyboardAvoidingView
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 20,
         fontWeight: 'bold',
-        backgroundColor: 'rgb(210, 210, 210)'
+        backgroundColor: 'rgb(230, 230, 230)'
     },
     button: {
         fontSize: 20,

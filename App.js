@@ -1,30 +1,31 @@
-// In App.js in a new project
-
-import 'react-native-gesture-handler';
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler'
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
 import DeckList from './components/DeckList.js'
 import DeckDetails from './components/DeckDetails.js'
 import NewCard from './components/NewCard.js'
-import CreateDeck from './components/CreateDeck.js';
+import CreateDeck from './components/CreateDeck.js'
 import Quiz from './components/Quiz.js'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native'
+import { storeData, clearAppData } from './utils/api'
 
 const Stack = createStackNavigator();
 
-function DeckListScreen({ navigation }) {
+function DeckListScreen({ route, navigation }) {
   return (
-    <DeckList navigation={navigation} />
-  );
+    <DeckList navigation={navigation} route={route} />
+  )
 }
 
-function NewCardScreen({ navigation }) {
+function NewCardScreen({ route, navigation }) {
   return (
-    <NewCard navigation={navigation} />
+    <NewCard navigation={navigation} route={route} />
   )
 }
 
 function App() {
+  storeData()
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -35,7 +36,7 @@ function App() {
         <Stack.Screen name="Start Quiz" component={Quiz} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  )
 }
 
 export default App
