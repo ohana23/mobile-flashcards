@@ -100,45 +100,45 @@ export async function clearAppData() {
     }
 }
 
+// * untested *
 export function clearLocalNotification() {
     return AsyncStorage.removeItem(NOTIFICATION_KEY)
         .then(Notifications.cancelAllScheduledNotificationsAsync)
 }
 
-function createNotification() {
-    return {
-        title: 'Study',
-        body: "Don't forget to study today!",
-        ios: {
-            sound: true
-        }
-    }
-}
-
+// * untested *
 export function setLocalNotification() {
     AsyncStorage.getItem(NOTIFICATION_KEY)
         .then(JSON.parse)
         .then((data) => {
-            Permissions.askAsync(Permissions.NOTIFICATIONS)
-                .then(({ status }) => {
-                    if (status === 'granted') {
-                        Notifications.cancelAllScheduledNotificationsAsync()
+            if (data === null) {
+                Permissions.askAsync(Permissions.NOTIFICATIONS)
+                    .then(({ status }) => {
+                        if (status === 'granted') {
+                            Notifications.cancelAllScheduledNotificationsAsync()
 
-                        let tomorrow = new Date()
-                        tomorrow.setDate(tomorrow.getDate() + 1)
-                        tomorrow.setHours(20)
-                        tomorrow.setMinutes(0)
+                            let tomorrow = new Date()
+                            tomorrow.setDate(tomorrow.getDate() + 1)
+                            tomorrow.setHours(21)
+                            tomorrow.setMinutes(0)
 
-                        Notifications.scheduleNotificationAsync(
-                            createNotification(),
-                            {
-                                time: tomorrow,
-                                repeat: 'day',
-                            }
-                        )
+                            Notifications.scheduleNotificationAsync({
+                                content: {
+                                    title: 'Study',
+                                    body: "Complete at least one quiz today!",
+                                    ios: {
+                                        sound: true
+                                    }
+                                },
+                                trigger: {
+                                    time: tomorrow,
+                                    repeat: 'day',
+                                }
+                            })
 
-                        AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
-                    }
-                })
+                            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+                        }
+                    })
+            }
         })
 }
