@@ -7,6 +7,7 @@ class Quiz extends React.Component {
     constructor(props) {
         super(props)
         this.deckList = this.props.route.params.deckList.questions
+        console.log(this.deckList) // todo: delete
         this.state = {
             questionNumber: 1, 
             showAnswer: false,

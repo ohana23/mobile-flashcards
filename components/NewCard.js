@@ -38,7 +38,7 @@ class NewCard extends React.Component {
         postThisCardToThisDeck()
 
         // Refresh the previous page before navigating back.
-        onGoBack(this.props.route.params.numberOfCards + 1)
+        // onGoBack(this.props.route.params.numberOfCards + 1)
 
         // Back navigate to this deck's details.
         this.props.navigation.goBack()

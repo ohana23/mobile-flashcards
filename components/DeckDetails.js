@@ -17,27 +17,13 @@ class DeckDetails extends React.Component {
             const response = await getDeck(this.props.route.params.title)
             this.setState({
                 deckList: response,
+                numberOfCards: response.questions.length
             })
         }
 
-        fetchDeck()
-
-    }
-
-    refreshPage = (updatedNumberOfCards) => {
-        this.setState({
-            numberOfCards: updatedNumberOfCards
+        this.props.navigation.addListener('focus', () => { 
+            fetchDeck() 
         })
-    }
-    
-    getNumberOfCards = () => {
-        const { deckList } = this.state
-
-        if (Object.keys(deckList).length !== 0) {
-            return deckList.questions.length
-        } else {
-            return 0
-        }
     }
 
     render() {
@@ -57,13 +43,12 @@ class DeckDetails extends React.Component {
             )
         }
     
-        const AddCardButton = ({ buttonText, deckTitle, refreshPage, numberOfCards }) => {
+        const AddCardButton = ({ buttonText, deckTitle, numberOfCards }) => {
             return (
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => navigation.push('New Card', { 
                         deckTitle, 
-                        onGoBack: refreshPage,
                         numberOfCards
                     })}
                 >
@@ -76,14 +61,16 @@ class DeckDetails extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.title}>{route.params.title}</Text>
                 <Text style={styles.subtitle}>{route.params.subtitle}</Text>
-                <Text style={styles.subtitle}>{numberOfCards + " cards"}</Text>
-    
+                <Text style={styles.subtitle}>
+                    {numberOfCards + (numberOfCards !== 1 ? " cards" : " card")}
+                </Text>
                 <View style={styles.buttonGroup}>
-                    <StartQuizButton buttonText="START QUIZ" />
+                    <StartQuizButton 
+                        buttonText="START QUIZ" 
+                    />
                     <AddCardButton 
                         buttonText="ADD A CARD" 
                         deckTitle={route.params.title}
-                        refreshPage={this.refreshPage}
                         numberOfCards={numberOfCards}
                     />
                 </View>

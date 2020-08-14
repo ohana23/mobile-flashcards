@@ -19,6 +19,7 @@ class DeckList extends React.Component {
                 DATA: response
             })
         }
+        
         this.props.navigation.addListener('focus', () => { fetchDecks() })
     }
 
@@ -38,33 +39,22 @@ class DeckList extends React.Component {
         return formattedData
     }
 
-    refreshPage = () => {
-        const fetchDecks = async () => {
-            const response = await getDecks()
-            var decks = this.formatData(await response)
-
-            this.setState({
-                DATA: decks
-            })
-        }
-        fetchDecks()
-    }
-
     render() {
         const { DATA } = this.state
         const { navigation } = this.props
 
-        const DeckItem = ({ title, numberOfCards, refreshPage }) => (
+        const DeckItem = ({ title, numberOfCards }) => (
             <TouchableOpacity
                 onPress={() => navigation.navigate('Deck Details', {
                     title: title,
                     numberOfCards: numberOfCards,
-                    onGoBack: refreshPage
                 })}
             >
                 <View style={styles.item}>
                         <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.subtitle}>{numberOfCards + " cards"}</Text>
+                        <Text style={styles.subtitle}>
+                            {numberOfCards + (numberOfCards !== 1 ? " cards" : " card")}
+                        </Text>
                 </View>
             </TouchableOpacity>
         )
@@ -73,7 +63,6 @@ class DeckList extends React.Component {
             <DeckItem 
                 title={item.title} 
                 numberOfCards={item.numberOfCards}
-                refreshPage={this.refreshPage}
             />
         )
 

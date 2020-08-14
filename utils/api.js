@@ -12,7 +12,6 @@ export async function getDecks() {
         const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
 
         if (item === null) {
-            console.log("item is null")
             AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
         }
 
@@ -52,21 +51,13 @@ export async function getDeck(id, setDeckList) {
 }
 
 // Save a new deck to the decklist.
-export async function saveDeckTitle(title) {
-    console.log("SAVE DECK TITLE")
-    console.log(title)
-    console.log(JSON.stringify({
-        [title]: {
-            title,
-            questions: []
-        }
-    }))
+export async function saveDeckTitle(deckTitle) {
     try {
         await AsyncStorage.mergeItem(
             DECKS_STORAGE_KEY,
             JSON.stringify({
-                [title]: {
-                    title,
+                [deckTitle]: {
+                    deckTitle,
                     questions: []
                 }
             })
@@ -80,8 +71,6 @@ export async function saveDeckTitle(title) {
 export async function addCardToDeck(title, card) {
     try {
         const deck = await getDeck(title)
-        console.log(title)
-        console.log(deck)
 
         await AsyncStorage.mergeItem(
             DECKS_STORAGE_KEY,
@@ -91,9 +80,6 @@ export async function addCardToDeck(title, card) {
                 }
             })
         )
-
-        const deck2 = await getDeck(title)
-        console.log(deck2)
     } catch (err) {
         console.log(err)
     }

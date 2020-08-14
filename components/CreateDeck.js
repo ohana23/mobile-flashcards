@@ -1,39 +1,53 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, Text, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import { TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { saveDeckTitle } from '../utils/api'
 
-function CreateDeck({ route, navigation }) {
+class CreateDeck extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            deckTitle: ''
+        }
+    }
 
-    const [newDeckTitle, setNewDeckTitle] = useState('')
+    handleDeckTitleChange = (deckTitleValue) => {
+        this.setState({ deckTitle: deckTitleValue })
+    }
 
-    useEffect(() => { }, [newDeckTitle])
+    // TODO: Don't navigate to Decks List. Navigate to this individual deck instead.
+    handleSubmit = (deckTitle, navigation) => {
+        saveDeckTitle(deckTitle)
+        navigation.navigate('Decks')
+    }
 
-    return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-            style={styles.container}
-            keyboardShouldPersistTaps={'never'}
-        >
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Title'
-                    placeholderTextColor='rgb(150, 150, 180)'
-                    defaultValue={''}
-                    onChangeText={text => setNewDeckTitle(text)}
-                />
-                <TouchableOpacity
-                    onPress={() => {
-                        saveDeckTitle({newDeckTitle})
-                        navigation.navigate('Decks')
-                    }}
-                >
-                    <Text style={styles.button}>CREATE</Text>
-                </TouchableOpacity>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-    )
+    render() {
+        const { deckTitle } = this.state
+        const { navigation } = this.props
+
+        return (
+            <KeyboardAvoidingView
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+                style={styles.container}
+                keyboardShouldPersistTaps={'never'}
+            >
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Title'
+                        placeholderTextColor='rgb(150, 150, 180)'
+                        value={deckTitle}
+                        onChangeText={deckTitleValue => this.handleDeckTitleChange(deckTitleValue)}
+                    />
+                    <TouchableOpacity
+                        onPress={() => this.handleSubmit(deckTitle, navigation)}
+                    >
+                        <Text style={styles.button}>CREATE</Text>
+                    </TouchableOpacity>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
