@@ -29,8 +29,7 @@ class DeckDetails extends React.Component {
             numberOfCards: updatedNumberOfCards
         })
     }
-
-    // TODO: make this fail-proof
+    
     getNumberOfCards = () => {
         const { deckList } = this.state
 

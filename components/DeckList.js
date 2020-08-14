@@ -19,7 +19,7 @@ class DeckList extends React.Component {
                 DATA: response
             })
         }
-        fetchDecks()
+        this.props.navigation.addListener('focus', () => { fetchDecks() })
     }
 
     formatData(decks) {
