@@ -24,9 +24,9 @@ function NewCardScreen({ route, navigation }) {
 }
 
 function App() {
-  storeData()
+  storeData() // store initial data
   setLocalNotification()
-  StatusBar.setBarStyle('dark-content', true);
+  StatusBar.setBarStyle('dark-content', true) // make iOS StatusBar visible
 
   return (
     <NavigationContainer>

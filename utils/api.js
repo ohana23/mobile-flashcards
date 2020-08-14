@@ -6,16 +6,10 @@ import * as Permissions from 'expo-permissions'
 export const DECKS_STORAGE_KEY = 'MobileFlashcards:deck'
 export const NOTIFICATION_KEY = 'MobileFlashcards:notifications'
 
-// Get initial decks data.
-// function getData() {
-//     return decks
-// }
-
-// Get all decks stored in AsynsStorage.
+// Get all decks stored in AsyncStorage.
 export async function getDecks() {
     try {
         const item = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-
         if (item === null) {
             AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
         }
@@ -28,11 +22,11 @@ export async function getDecks() {
     }
 }
 
-// Store initial decks data to AsynsStorage.
+// Store initial decks data to AsyncStorage.
 export async function storeData() {
     try {
         await AsyncStorage.setItem(
-            'MobileFlashcards:deck',
+            DECKS_STORAGE_KEY,
             JSON.stringify(decks)
         )
 
@@ -42,14 +36,9 @@ export async function storeData() {
 }
 
 // Get a specific deck.
-// TODO: Remove second parameter and if stmnt.
-export async function getDeck(id, setDeckList) {
+export async function getDeck(id) {
     try {
         const allDecks = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-        if (setDeckList) {
-            setDeckList(JSON.parse(allDecks)[id])
-        }
-
         return JSON.parse(allDecks)[id]
     } catch (err) {
         console.log(err)

@@ -10,8 +10,8 @@ class QuizResults extends React.Component {
         const { correctAnswers, totalQuestions, handleRestart, navigation } = this.props
         const score = correctAnswers / totalQuestions
 
-        // Remove current day's notification if a user reaches the Results of a quiz.
-        // Set a local notification for the day after.
+        // Remove the current day's notification if a user reaches the Results of a Quiz.
+        // Set a local notification up for the day after.
         clearLocalNotification()
             .then(setLocalNotification)
 
