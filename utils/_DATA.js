@@ -1,46 +1,49 @@
 export const decks = {
-    React: {
-        title: 'React',
+    Biology: {
+        title: 'Biology',
         questions: [
             {
-                question: 'What is React?',
-                answer: 'A library for managing user interfaces'
+                question: 'What is the mitochondria?',
+                answer: 'The powerhouse of the cell.'
             },
             {
-                question: 'Where do you make Ajax requests in React?',
-                answer: 'The componentDidMount lifecycle event'
-            }
-        ]
-    },
-    JavaScript: {
-        title: 'JavaScript',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    Instagram: {
-        title: 'Instagram',
-        questions: [
-            {
-                question: 'When is the best time to post to get the most likes?',
-                answer: 'Midday'
+                question: 'What is the most common element in the human body?',
+                answer: 'Oxygen'
             },
             {
-                question: 'Who has the most followers?',
-                answer: 'Justin Bieber'
+                question: 'Which organ cleans your blood?',
+                answer: 'Kidney'
+            },
+            {
+                question: 'Which has more bones: babies or adults?',
+                answer: 'Babies'
             }
         ]
     },
-    Test: {
-        title: 'Test',
+    Movies: {
+        title: 'Movies',
         questions: [
             {
-                question: 'test',
-                answer: 'test'
+                question: 'Does Neo take the blue pill or the red pill?',
+                answer: 'Red'
+            },
+            {
+                question: 'Who was the first actor to play James Bond?',
+                answer: 'Sean Connery'
+            },
+            {
+                question: "Darth Vader never actually said 'Luke, I am your father.' So what did say?",
+                answer: 'No, I am your father.'
             }
         ]
-    }
+    },
+    Anthropology: {
+        title: 'Anthropology',
+        questions: [
+            {
+                question: 'What is the smallest unit of meaning in a language?',
+                answer: 'Morpheme'
+            }
+        ]
+    },
 }
