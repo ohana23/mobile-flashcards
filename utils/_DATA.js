@@ -32,7 +32,7 @@ export const decks = {
                 answer: 'Sean Connery'
             },
             {
-                question: "Darth Vader never actually said 'Luke, I am your father.' So what did say?",
+                question: "Darth Vader never actually said 'Luke, I am your father.' What did he say?",
                 answer: 'No, I am your father.'
             }
         ]
