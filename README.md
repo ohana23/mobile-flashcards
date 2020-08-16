@@ -7,6 +7,7 @@
 
 ## Install dependencies
 `expo install`
+(If you get an SDK version related error, you may need to run `yarn add expo` instead.)
 
 ## Run
 `expo start`
