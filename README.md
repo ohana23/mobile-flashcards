@@ -6,8 +6,7 @@
 `git clone https://github.com/ohana23/mobile-flashcards.git`
 
 ## Install dependencies
-`expo install`
-(If you get an SDK version related error, you may need to run `yarn add expo` instead.)
+`yarn install`
 
 ## Run
 `expo start`
